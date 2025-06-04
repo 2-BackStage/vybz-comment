@@ -28,12 +28,12 @@ public class CommentController {
             tags = {"COMMENT-SERVICE"}
     )
     @PostMapping
-    public BaseResponseEntity<ResponseAddCommentVo> createComment(HttpServletRequest httpServletRequest,
-                                                                  @RequestBody RequestAddCommentVo requestAddCommentVo) {
+    public BaseResponseEntity<Void> createComment(HttpServletRequest httpServletRequest,
+                                                  @RequestBody RequestAddCommentVo requestAddCommentVo) {
         String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         RequestAddCommentDto requestAddCommentDto = RequestAddCommentDto.from(requestAddCommentVo, writerUuid);
-        ResponseAddCommentDto responseAddCommentDto = commentService.createComment(requestAddCommentDto);
-        return new BaseResponseEntity<>(ResponseAddCommentVo.from(responseAddCommentDto));
+        commentService.createComment(requestAddCommentDto);
+        return new BaseResponseEntity<>();
     }
 
 

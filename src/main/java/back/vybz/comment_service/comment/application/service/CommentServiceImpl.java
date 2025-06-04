@@ -8,7 +8,6 @@ import back.vybz.comment_service.comment.dto.response.ResponseAddCommentDto;
 import back.vybz.comment_service.comment.infrastructure.repository.CommentRepository;
 import back.vybz.comment_service.common.exception.BaseException;
 import back.vybz.comment_service.common.exception.BaseResponseStatus;
-import com.mongodb.client.result.UpdateResult;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -24,11 +23,10 @@ public class CommentServiceImpl implements CommentService{
     */
     @Override
     @Transactional
-    public ResponseAddCommentDto createComment(RequestAddCommentDto requestAddCommentDto) {
+    public void createComment(RequestAddCommentDto requestAddCommentDto) {
         try {
             Comment comment = requestAddCommentDto.toEntity();
             Comment savedComment = commentRepository.save(comment);
-            return ResponseAddCommentDto.from(savedComment);
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.COMMENT_CREATE_FAIL);
         }

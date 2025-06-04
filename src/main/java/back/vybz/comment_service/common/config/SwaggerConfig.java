@@ -34,8 +34,8 @@ public class SwaggerConfig {
 
     private Info apiInfo() {
         return new Info()
-                .title("VYBZ USER SERVICE 문서")
-                .description("USER SERVICE API 테스트를 위한 Swagger UI")
+                .title("VYBZ COMMENT SERVICE 문서")
+                .description("COMMENT SERVICE API 테스트를 위한 Swagger UI")
                 .version("1.0.0");
     }
 
