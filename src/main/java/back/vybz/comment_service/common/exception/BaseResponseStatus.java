@@ -43,6 +43,8 @@ public enum BaseResponseStatus {
     INVALID_ACCESS_TOKEN(HttpStatus.UNAUTHORIZED, false, 410, "유효하지 않은 Access Token입니다."),
     NO_EXIST_NOTICE(HttpStatus.NOT_FOUND,false,404, "존재하지 않는 공지사항입니다."),
     NO_EXIST_COMMENT_OR_NO_AUTH(HttpStatus.NOT_FOUND, false,404,"댓글이 존재하지 않거나 권한이 없습니다."),
+    COMMENT_NOT_FOUND(HttpStatus.NOT_FOUND, false, 405, "존재하지 않는 댓글입니다."),
+
 
     /**
      * 500: 서버 에러
@@ -52,6 +54,7 @@ public enum BaseResponseStatus {
     REELS_UPDATE_FAILED(HttpStatus.INTERNAL_SERVER_ERROR, false, 500, "릴스 수정 중 오류가 발생했습니다."),
     REELS_NOT_FOUND(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 릴스입니다."),
     NO_EXIST_FEED(HttpStatus.NOT_FOUND, false, 500, "존재하지 않는 피드입니다."),
+    COMMENT_CREATE_FAIL(HttpStatus.INTERNAL_SERVER_ERROR, false, 501, "댓글 등록 중 오류가 발생했습니다."),
 
 
 

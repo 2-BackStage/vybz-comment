@@ -1,6 +1,6 @@
 package back.vybz.comment_service.common.exception;
 
-import back.vybz.feed_service.common.entity.BaseResponseEntity;
+import back.vybz.comment_service.common.entity.BaseResponseEntity;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.http.converter.HttpMessageNotReadableException;
@@ -88,4 +88,3 @@ public class BaseExceptionHandler {
     }
 
 }
-

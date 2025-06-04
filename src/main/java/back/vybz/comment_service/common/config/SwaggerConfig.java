@@ -28,7 +28,7 @@ public class SwaggerConfig {
         return new OpenAPI()
                 .addSecurityItem(securityRequirement)
                 .components(components)
-                .addServersItem(new Server().url("/feed-service"))
+                .addServersItem(new Server().url("/comment-service"))
                 .info(apiInfo());
     }
 

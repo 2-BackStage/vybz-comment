@@ -23,8 +23,9 @@ public class RequestUpdateCommentDto {
         this.comment = comment;
     }
 
-    public static RequestUpdateCommentDto from(String commentId,
-                                               RequestUpdateCommentVo requestUpdateCommentVo) {
+    public static RequestUpdateCommentDto of(String commentId,
+                                               RequestUpdateCommentVo requestUpdateCommentVo,
+                                               String writerUuid) {
         return RequestUpdateCommentDto.builder()
                 .commentId(requestUpdateCommentVo.getCommentId())
                 .writerUuid(requestUpdateCommentVo.getWriterUuid())

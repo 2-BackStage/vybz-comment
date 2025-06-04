@@ -1,6 +1,6 @@
 package back.vybz.comment_service.common.entity;
 
-import back.vybz.feed_service.common.exception.BaseResponseStatus;
+import back.vybz.comment_service.common.exception.BaseResponseStatus;
 import io.swagger.v3.oas.annotations.media.Schema;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.HttpStatusCode;

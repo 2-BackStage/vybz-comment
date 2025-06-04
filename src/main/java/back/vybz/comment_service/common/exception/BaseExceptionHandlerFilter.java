@@ -1,7 +1,6 @@
 package back.vybz.comment_service.common.exception;
 
-
-import back.vybz.feed_service.common.entity.BaseResponseEntity;
+import back.vybz.comment_service.common.entity.BaseResponseEntity;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
@@ -46,4 +45,3 @@ public class BaseExceptionHandlerFilter extends OncePerRequestFilter {
         }
     }
 }
-
