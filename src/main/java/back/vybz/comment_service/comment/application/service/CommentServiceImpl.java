@@ -4,10 +4,11 @@ package back.vybz.comment_service.comment.application.service;
 import back.vybz.comment_service.comment.domain.mongodb.Comment;
 import back.vybz.comment_service.comment.dto.request.RequestAddCommentDto;
 import back.vybz.comment_service.comment.dto.request.RequestUpdateCommentDto;
-import back.vybz.comment_service.comment.dto.response.ResponseAddCommentDto;
 import back.vybz.comment_service.comment.infrastructure.repository.CommentRepository;
 import back.vybz.comment_service.common.exception.BaseException;
 import back.vybz.comment_service.common.exception.BaseResponseStatus;
+import back.vybz.comment_service.kafka.event.CommentCountEvent;
+import back.vybz.comment_service.kafka.producer.CommentCountKafkaProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -17,6 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
+    private final CommentCountKafkaProducer commentCountKafkaProducer;
 
    /*
         * 댓글 생성
@@ -27,9 +29,17 @@ public class CommentServiceImpl implements CommentService{
         try {
             Comment comment = requestAddCommentDto.toEntity();
             Comment savedComment = commentRepository.save(comment);
+            CommentCountEvent event = CommentCountEvent.builder()
+                    .feedId(savedComment.getFeedId())
+                    .delta(+1)
+                    .build();
+
+            commentCountKafkaProducer.send(event);
+
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.COMMENT_CREATE_FAIL);
         }
+
     }
 
 
@@ -58,5 +68,11 @@ public class CommentServiceImpl implements CommentService{
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT_OR_NO_AUTH);
         }
         commentRepository.delete(comment);
+        CommentCountEvent event = CommentCountEvent.builder()
+                .feedId(comment.getFeedId())
+                .delta(-1)
+                .build();
+
+        commentCountKafkaProducer.send(event);
     }
 }
