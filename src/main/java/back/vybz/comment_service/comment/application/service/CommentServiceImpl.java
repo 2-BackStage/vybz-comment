@@ -7,8 +7,8 @@ import back.vybz.comment_service.comment.dto.request.RequestUpdateCommentDto;
 import back.vybz.comment_service.comment.infrastructure.repository.CommentRepository;
 import back.vybz.comment_service.common.exception.BaseException;
 import back.vybz.comment_service.common.exception.BaseResponseStatus;
-import back.vybz.comment_service.kafka.event.CommentCountEvent;
-import back.vybz.comment_service.kafka.producer.CommentCountKafkaProducer;
+import back.vybz.comment_service.kafka.event.CommentDeltaEvent;
+import back.vybz.comment_service.kafka.producer.CommentDeltaEventKafkaProducer;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -18,7 +18,7 @@ import org.springframework.transaction.annotation.Transactional;
 public class CommentServiceImpl implements CommentService{
 
     private final CommentRepository commentRepository;
-    private final CommentCountKafkaProducer commentCountKafkaProducer;
+    private final CommentDeltaEventKafkaProducer commentDeltaEventKafkaProducer;
 
    /*
         * 댓글 생성
@@ -29,12 +29,14 @@ public class CommentServiceImpl implements CommentService{
         try {
             Comment comment = requestAddCommentDto.toEntity();
             Comment savedComment = commentRepository.save(comment);
-            CommentCountEvent event = CommentCountEvent.builder()
+            CommentDeltaEvent event = CommentDeltaEvent.builder()
                     .feedId(savedComment.getFeedId())
+                    .commentId(savedComment.getId())
+                    .feedType(savedComment.getFeedType())
                     .delta(+1)
                     .build();
 
-            commentCountKafkaProducer.send(event);
+            commentDeltaEventKafkaProducer.send(event);
 
         } catch (Exception e) {
             throw new BaseException(BaseResponseStatus.COMMENT_CREATE_FAIL);
@@ -68,11 +70,13 @@ public class CommentServiceImpl implements CommentService{
             throw new BaseException(BaseResponseStatus.NO_EXIST_COMMENT_OR_NO_AUTH);
         }
         commentRepository.delete(comment);
-        CommentCountEvent event = CommentCountEvent.builder()
+        CommentDeltaEvent event = CommentDeltaEvent.builder()
                 .feedId(comment.getFeedId())
+                .commentId(comment.getId())
+                .feedType(comment.getFeedType())
                 .delta(-1)
                 .build();
 
-        commentCountKafkaProducer.send(event);
+        commentDeltaEventKafkaProducer.send(event);
     }
 }
