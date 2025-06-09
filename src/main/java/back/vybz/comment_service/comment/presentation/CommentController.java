@@ -2,17 +2,15 @@ package back.vybz.comment_service.comment.presentation;
 
 
 import back.vybz.comment_service.comment.application.service.CommentService;
+import back.vybz.comment_service.comment.domain.mongodb.FeedType;
 import back.vybz.comment_service.comment.dto.request.RequestAddCommentDto;
 import back.vybz.comment_service.comment.dto.request.RequestUpdateCommentDto;
-import back.vybz.comment_service.comment.dto.response.ResponseAddCommentDto;
 import back.vybz.comment_service.comment.vo.request.RequestAddCommentVo;
 import back.vybz.comment_service.comment.vo.request.RequestUpdateCommentVo;
-import back.vybz.comment_service.comment.vo.response.ResponseAddCommentVo;
 import back.vybz.comment_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
-
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -29,6 +27,8 @@ public class CommentController {
     )
     @PostMapping
     public BaseResponseEntity<Void> createComment(HttpServletRequest httpServletRequest,
+                                                  @PathVariable FeedType feedType,
+                                                  @PathVariable String feedId,
                                                   @RequestBody RequestAddCommentVo requestAddCommentVo) {
         String writerUuid = httpServletRequest.getHeader("X-USER-Id");
         RequestAddCommentDto requestAddCommentDto = RequestAddCommentDto.from(requestAddCommentVo, writerUuid);
