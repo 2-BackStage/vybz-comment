@@ -8,16 +8,11 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestUpdateCommentVo {
 
-    private String commentId;
-    private String writerUuid;
+
     private String comment;
 
     @Builder
-    private RequestUpdateCommentVo(String commentId,
-                                   String writerUuid,
-                                   String comment) {
-        this.commentId = commentId;
-        this.writerUuid = writerUuid;
+    private RequestUpdateCommentVo(String comment) {
         this.comment = comment;
     }
 }

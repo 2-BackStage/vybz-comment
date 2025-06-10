@@ -48,12 +48,7 @@ public class RequestAddCommentDto {
 
     public static RequestAddCommentDto from(RequestAddCommentVo requestAddCommentVo, String writerUuid) {
         return RequestAddCommentDto.builder()
-                .feedId(requestAddCommentVo.getFeedId())
-                .feedType(requestAddCommentVo.getFeedType())
-                .writerUuid(requestAddCommentVo.getWriterUuid())
-                .writerType(requestAddCommentVo.getWriterType())
                 .comment(requestAddCommentVo.getComment())
-                .parentCommentId(requestAddCommentVo.getParentCommentId())
                 .build();
 
     }
