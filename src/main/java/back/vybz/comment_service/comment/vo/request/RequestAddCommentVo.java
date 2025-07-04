@@ -9,10 +9,13 @@ import lombok.NoArgsConstructor;
 public class RequestAddCommentVo {
     private String comment;
     private String writerUuid;
+    private String feedId;
 
     @Builder
-    public RequestAddCommentVo(String comment, String parentCommentId) {
+    public RequestAddCommentVo(String comment, String parentCommentId, String writerUuid, String feedId) {
         this.comment = comment;
+        this.writerUuid = writerUuid;
+        this.feedId = feedId;
     }
 }
 
