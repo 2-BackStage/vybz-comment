@@ -9,7 +9,6 @@ import lombok.Builder;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 
-
 @Getter
 @NoArgsConstructor
 public class RequestAddCommentDto {
@@ -46,10 +45,13 @@ public class RequestAddCommentDto {
                 .build();
     }
 
-    public static RequestAddCommentDto from(RequestAddCommentVo requestAddCommentVo, String writerUuid) {
+    public static RequestAddCommentDto from(RequestAddCommentVo vo, String writerUuid) {
         return RequestAddCommentDto.builder()
-                .comment(requestAddCommentVo.getComment())
+                .feedId(vo.getFeedId())
+                .feedType(vo.getFeedType())
+                .writerUuid(writerUuid)
+                .comment(vo.getComment())
+                .parentCommentId(vo.getParentCommentId())
                 .build();
-
     }
 }
