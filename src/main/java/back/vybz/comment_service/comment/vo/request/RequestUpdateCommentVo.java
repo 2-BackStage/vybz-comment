@@ -10,6 +10,7 @@ public class RequestUpdateCommentVo {
 
 
     private String comment;
+    private String writerUuid;
 
     @Builder
     private RequestUpdateCommentVo(String comment) {

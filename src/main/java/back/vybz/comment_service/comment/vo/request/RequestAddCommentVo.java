@@ -8,6 +8,7 @@ import lombok.NoArgsConstructor;
 @NoArgsConstructor
 public class RequestAddCommentVo {
     private String comment;
+    private String writerUuid;
 
     @Builder
     public RequestAddCommentVo(String comment, String parentCommentId) {
