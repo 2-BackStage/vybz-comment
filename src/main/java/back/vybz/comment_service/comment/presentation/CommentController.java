@@ -26,8 +26,6 @@ public class CommentController {
     )
     @PostMapping
     public BaseResponseEntity<Void> createComment(
-            @PathVariable FeedType feedType,
-            @PathVariable String feedId,
             @RequestBody RequestAddCommentVo requestAddCommentVo) {
         String writerUuid = requestAddCommentVo.getWriterUuid();
         RequestAddCommentDto requestAddCommentDto = RequestAddCommentDto.from(requestAddCommentVo, writerUuid);
