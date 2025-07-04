@@ -24,8 +24,8 @@ public class RequestUpdateCommentDto {
     }
 
     public static RequestUpdateCommentDto of(String commentId,
-                                               RequestUpdateCommentVo requestUpdateCommentVo,
-                                               String writerUuid) {
+                                               String writerUuid,
+                                               RequestUpdateCommentVo requestUpdateCommentVo) {
         return RequestUpdateCommentDto.builder()
                 .comment(requestUpdateCommentVo.getComment())
                 .build();

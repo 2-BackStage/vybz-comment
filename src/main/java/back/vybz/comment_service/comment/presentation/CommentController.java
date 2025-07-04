@@ -9,7 +9,6 @@ import back.vybz.comment_service.comment.vo.request.RequestAddCommentVo;
 import back.vybz.comment_service.comment.vo.request.RequestUpdateCommentVo;
 import back.vybz.comment_service.common.entity.BaseResponseEntity;
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,17 +25,15 @@ public class CommentController {
             tags = {"COMMENT-SERVICE"}
     )
     @PostMapping
-    public BaseResponseEntity<Void> createComment(HttpServletRequest httpServletRequest,
-                                                  @PathVariable FeedType feedType,
-                                                  @PathVariable String feedId,
-                                                  @RequestBody RequestAddCommentVo requestAddCommentVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+    public BaseResponseEntity<Void> createComment(
+            @PathVariable FeedType feedType,
+            @PathVariable String feedId,
+            @RequestBody RequestAddCommentVo requestAddCommentVo) {
+        String writerUuid = requestAddCommentVo.getWriterUuid();
         RequestAddCommentDto requestAddCommentDto = RequestAddCommentDto.from(requestAddCommentVo, writerUuid);
         commentService.createComment(requestAddCommentDto);
         return new BaseResponseEntity<>();
     }
-
-
 
     @Operation(
             summary = "댓글 수정 API",
@@ -44,11 +41,11 @@ public class CommentController {
             tags = {"COMMENT-SERVICE"}
     )
     @PutMapping("/{commentId}")
-    public BaseResponseEntity<Void> updateComment(HttpServletRequest httpServletRequest,
-                                                  @PathVariable String commentId,
-                                                  @RequestBody RequestUpdateCommentVo requestUpdateCommentVo) {
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
-        commentService.updateComment(RequestUpdateCommentDto.of(commentId,requestUpdateCommentVo, writerUuid));
+    public BaseResponseEntity<Void> updateComment(
+            @PathVariable String commentId,
+            @RequestBody RequestUpdateCommentVo requestUpdateCommentVo) {
+        String writerUuid = requestUpdateCommentVo.getWriterUuid();
+        commentService.updateComment(RequestUpdateCommentDto.of(commentId, writerUuid, requestUpdateCommentVo));
         return new BaseResponseEntity<>();
     }
 
@@ -58,9 +55,10 @@ public class CommentController {
             tags = {"COMMENT-SERVICE"}
     )
     @DeleteMapping("/{commentId}")
-    public BaseResponseEntity<Void> deleteComment(HttpServletRequest httpServletRequest,
-                                                  @PathVariable String commentId){
-        String writerUuid = httpServletRequest.getHeader("X-USER-Id");
+    public BaseResponseEntity<Void> deleteComment(
+            @PathVariable String commentId,
+            @RequestBody RequestUpdateCommentVo requestUpdateCommentVo) {
+        String writerUuid = requestUpdateCommentVo.getWriterUuid();
         commentService.deleteComment(commentId, writerUuid);
         return new BaseResponseEntity<>();
     }
